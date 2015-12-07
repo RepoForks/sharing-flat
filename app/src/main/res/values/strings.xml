@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">FlatSharing</string>
+
+    <!-- NavigationDrawer -->
+    <string name="action_settings">Ajustes</string>
+    <string name="action_groups">Grupos</string>
+    <string name="add_group_title">Nombre</string>
+    <string name="add_group_description">Descripción</string>
+    <string name="add_group_members">Miembros</string>
+    <string name="add_group_add_member_hint">Añade un miembro...</string>
+    <string name="action_done">Listo</string>
+</resources>
