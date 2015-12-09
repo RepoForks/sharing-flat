@@ -1,10 +1,5 @@
 package com.costular.flatsharing.groups;
 
-import com.costular.flatsharing.add_group.AddGroupContract;
-import com.costular.flatsharing.add_group.AddGroupPresenter;
-import com.costular.flatsharing.groups.GroupsContract;
-import com.costular.flatsharing.groups.GroupsPresenter;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,7 +13,7 @@ import static org.mockito.Mockito.verify;
 public class GroupsPresenterTest {
 
     @Mock
-    private GroupsContract.View view;
+    private GroupsContract.MyView view;
     private GroupsPresenter groupPresenter;
 
     @Before

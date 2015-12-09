@@ -13,23 +13,27 @@ import android.view.MenuItem;
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.add_group.AddGroupActivity;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class GroupsActivity extends AppCompatActivity {
+
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        loadFragment();
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(GroupsActivity.this, AddGroupActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void loadFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, GroupsFragment.newInstance())
+                .commit();
     }
 
     @Override

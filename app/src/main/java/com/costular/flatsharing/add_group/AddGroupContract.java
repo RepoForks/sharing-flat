@@ -1,6 +1,7 @@
 package com.costular.flatsharing.add_group;
 
 import com.costular.flatsharing.data.Group;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -9,25 +10,33 @@ import java.io.IOException;
  */
 public interface AddGroupContract {
 
-    interface View {
+    interface MyView {
 
-        void showEmptyGroupError();
+        void showGroupsList();
+
+        void showEmptyGroupTitleError();
+
+        void showSelectImageInputDialog(android.view.View view);
 
         void openCamera(String whereSave);
 
         void showImageError();
 
         void setDefaultPicture();
+
+        void selectPictureFromGallery();
     }
 
     interface UserActionListener {
 
         void saveGroup(Group group);
 
+        void addPicture(View v);
+
         void takePicture() throws IOException;
 
         void selectPictureFromGallery() throws IOException;
 
-        void deletePicture();
+        void deletePicture() throws IOException;
     }
 }

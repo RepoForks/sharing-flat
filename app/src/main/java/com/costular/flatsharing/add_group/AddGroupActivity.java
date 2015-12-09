@@ -6,8 +6,6 @@ import android.view.Menu;
 import com.costular.flatsharing.BaseActivity;
 import com.costular.flatsharing.R;
 
-import butterknife.InjectView;
-
 /**
  * Created by diego on 7/12/15.
  */
