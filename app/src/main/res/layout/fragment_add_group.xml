@@ -13,7 +13,7 @@
             android:id="@+id/header_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
+            android:layout_weight="0.6"
             android:paddingBottom="16dp"
             android:scaleType="centerCrop"
             android:src="@drawable/group_placeholder"/>
@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
             android:paddingTop="32dp"
             android:orientation="vertical">
 

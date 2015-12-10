@@ -1,11 +1,16 @@
 package com.costular.flatsharing.add_group;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -22,12 +27,15 @@ import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by diego on 7/12/15.
  */
+@RuntimePermissions
 public class AddGroupFragment extends Fragment implements AddGroupContract.MyView {
-
+    
     @Bind(R.id.add_group_title_layout)
     TextInputLayout addGroupTitleInputLayout;
     @Bind(R.id.add_group_title)
@@ -84,14 +92,19 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
                 }
                 return true;
             case R.id.context_add_group_camera:
-                try {
-                    presenter.takePicture();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                takePictureWithPermissions();
                 return true;
             default:
                 return super.onContextItemSelected(item);
+        }
+    }
+
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void takePictureWithPermissions() {
+        try {
+            presenter.takePicture();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

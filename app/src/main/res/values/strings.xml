@@ -13,4 +13,7 @@
     <string name="group_added_successfully">Grupo añadido con éxito</string>
     <string name="context_add_group_gallery">Desde la galería</string>
     <string name="add_group_camera">Desde la cámara</string>
+    <string name="we_need_camera_permission">Necesitamos que nos des permisos para usar la cámara</string>
+    <string name="retry">Reintentar</string>
+    <string name="add_group_toolbar_title">Añadir grupo</string>
 </resources>

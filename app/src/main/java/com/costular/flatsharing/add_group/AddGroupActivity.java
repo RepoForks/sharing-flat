@@ -16,6 +16,7 @@ public class AddGroupActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
         setUpToolbar(true);
+        setToolbarTitle(getString(R.string.add_group_toolbar_title));
         loadFragmentIntoContainer();
     }
 
