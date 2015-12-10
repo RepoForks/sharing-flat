@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 23
@@ -26,8 +25,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.github.hotchemi:permissionsdispatcher:2.0.1'
-    apt 'com.github.hotchemi:permissionsdispatcher-processor:2.0.1'
+    compile 'com.karumi:dexter:2.1.2'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-all:1.10.19"

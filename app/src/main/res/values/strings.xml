@@ -16,4 +16,5 @@
     <string name="we_need_camera_permission">Necesitamos que nos des permisos para usar la cámara</string>
     <string name="retry">Reintentar</string>
     <string name="add_group_toolbar_title">Añadir grupo</string>
+    <string name="we_need_file_permission">Es necesario que aceptes el permiso para poder usar imágenes</string>
 </resources>

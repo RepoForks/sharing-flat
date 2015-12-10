@@ -32,6 +32,10 @@ public class AddGroupPresenter implements AddGroupContract.UserActionListener{
         }
     }
 
+    public ImageFile getImageFile() {
+        return imageFile;
+    }
+
     @Override
     public void addPicture(View v) {
         view.showSelectImageInputDialog(v);

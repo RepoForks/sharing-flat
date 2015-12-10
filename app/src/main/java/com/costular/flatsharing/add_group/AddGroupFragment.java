@@ -3,14 +3,17 @@ package com.costular.flatsharing.add_group;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -18,30 +21,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.util.AndroidImageFile;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.single.EmptyPermissionListener;
+import com.karumi.dexter.listener.single.PermissionListener;
+import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.RuntimePermissions;
 
 /**
  * Created by diego on 7/12/15.
  */
-@RuntimePermissions
 public class AddGroupFragment extends Fragment implements AddGroupContract.MyView {
-    
-    @Bind(R.id.add_group_title_layout)
-    TextInputLayout addGroupTitleInputLayout;
-    @Bind(R.id.add_group_title)
-    EditText addGroupTitleEditText;
-    @Bind(R.id.add_group_description)
-    EditText addGroupDescriptionEditText;
+
+    public static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    @Bind(R.id.header_image) ImageView headerImage;
+    @Bind(R.id.add_group_title_layout) TextInputLayout addGroupTitleInputLayout;
+    @Bind(R.id.add_group_title) EditText addGroupTitleEditText;
+    @Bind(R.id.add_group_description) EditText addGroupDescriptionEditText;
 
     @Bind(R.id.fab_add_picture) FloatingActionButton addPictureFab;
 
@@ -99,13 +107,24 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
         }
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void takePictureWithPermissions() {
-        try {
-            presenter.takePicture();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PermissionListener permissionListener = new EmptyPermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse response) {
+                try {
+                    presenter.takePicture();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse response) {
+                Snackbar.make(getView(), R.string.we_need_file_permission,
+                        Snackbar.LENGTH_LONG).show();
+            }
+        };
+        Dexter.checkPermission(permissionListener, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
@@ -126,8 +145,29 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
     }
 
     @Override
-    public void openCamera(String whereSave) {
+    public void loadImageSelectedIntoView(String whereIs) {
+        Picasso.with(getActivity())
+                .load(Uri.parse(whereIs))
+                .fit()
+                .centerCrop()
+                .into(headerImage);
+    }
 
+    @Override
+    public void openCamera(String whereSave) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(whereSave));
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
+            String path = presenter.getImageFile().getPath();
+            loadImageSelectedIntoView(path);
+        }
     }
 
     @Override
