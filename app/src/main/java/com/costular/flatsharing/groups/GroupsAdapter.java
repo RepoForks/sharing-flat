@@ -1,6 +1,9 @@
 package com.costular.flatsharing.groups;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.data.Group;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,17 +46,40 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupsView
     }
 
     @Override
-    public void onBindViewHolder(GroupsViewHolder holder, int position) {
+    public void onBindViewHolder(final GroupsViewHolder holder, int position) {
         Group group = getItem(position);
 
         if(group != null) {
             holder.groupTitle.setText(group.getTitle());
+            holder.groupDescription.setText(group.getDescription());
+
             Picasso.with(context)
                     .load(group.getImageURL())
                     .placeholder(R.drawable.group_placeholder)
                     .fit()
                     .centerCrop()
-                    .into(holder.groupImage);
+                    .into(holder.groupImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Bitmap bitmap = ((BitmapDrawable) holder.groupImage.getDrawable()).getBitmap();
+                            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    Palette.Swatch lightVibrant = palette.getLightVibrantSwatch();
+                                    if(lightVibrant != null) {
+                                        holder.dataContainer.setBackgroundColor(lightVibrant.getRgb());
+                                        holder.groupTitle.setTextColor(lightVibrant.getTitleTextColor());
+                                        holder.groupDescription.setTextColor(lightVibrant.getBodyTextColor());
+                                    }
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
         }
     }
 
@@ -79,6 +106,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupsView
         @Bind(R.id.group_image) ImageView groupImage;
         @Bind(R.id.group_data_container) ViewGroup dataContainer;
         @Bind(R.id.group_title) TextView groupTitle;
+        @Bind(R.id.group_description) TextView groupDescription;
 
         private GroupActionListener listener;
 

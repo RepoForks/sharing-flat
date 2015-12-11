@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
 
     @Bind(R.id.loading) ProgressBar loadingProgressBar;
     @Bind(R.id.recycler_view) AutofitRecyclerView recyclerView;
+    @Bind(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
 
     public static GroupsFragment newInstance() {
         return new GroupsFragment();
@@ -57,14 +60,27 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
         setRetainInstance(true);
         groupsPresenter = new GroupsPresenter(this, new GroupDataCached(new FakeApiService(10)));
 
+        refreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getActivity(), R.color.colorPrimary),
+                ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
+        );
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                groupsPresenter.loadGroups(true);
+            }
+        });
+
         fabAddGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 groupsPresenter.addNewGroup();
             }
         });
+
+        int numColumns = getContext().getResources().getInteger(R.integer.num_groups_colmumns);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), numColumns));
         adapter = new GroupsAdapter(new ArrayList<Group>(0), new GroupsAdapter.GroupActionListener() {
             @Override
             public void groupClicked(Group group) {
@@ -94,6 +110,7 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     @Override
     public void setProgressIndicator(boolean active) {
         loadingProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        refreshLayout.setRefreshing(active);
     }
 
     @Override

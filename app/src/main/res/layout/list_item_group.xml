@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     android:layout_width="165dp"
-    android:layout_height="190dp"
+    android:layout_height="wrap_content"
+    android:minHeight="190dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="3dp"
+    app:cardCornerRadius="2dp"
     android:layout_marginTop="9dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    app:cardElevation="0.01dp"
     android:layout_marginBottom="0dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
@@ -16,33 +18,45 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <com.costular.flatsharing.util.SquareFrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <ImageView
             android:id="@+id/group_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="90dp"
             android:scaleType="centerCrop"/>
-
-    </com.costular.flatsharing.util.SquareFrameLayout>
 
     <LinearLayout
         android:id="@+id/group_data_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/primaryTextColor"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/group_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:maxLines="2"
             android:ellipsize="end"
-            android:layout_margin="16dp"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:text="Aloha"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/white"
+            android:text="title"/>
+
+        <TextView
+            android:id="@+id/group_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textColor="@color/inverseSecondaryTextColor"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Description"/>
 
     </LinearLayout>
     </LinearLayout>
