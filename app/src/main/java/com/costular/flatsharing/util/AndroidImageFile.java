@@ -12,7 +12,7 @@ import java.io.IOException;
 public class AndroidImageFile implements ImageFile{
 
     private File imageFile;
-    File storageDir;
+    private File storageDir;
 
     public static AndroidImageFile newInstance() {
         return new AndroidImageFile();
@@ -30,6 +30,11 @@ public class AndroidImageFile implements ImageFile{
             setStorageDir();
         }
         createFile(filename, extension);
+    }
+
+    @Override
+    public void setPath(String uriFile) {
+        imageFile = new File(uriFile);
     }
 
     private void setStorageDir() {
@@ -60,7 +65,6 @@ public class AndroidImageFile implements ImageFile{
 
     @Override
     public void delete() throws IOException{
-        imageFile.delete();
         imageFile = null;
     }
 }

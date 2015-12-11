@@ -4,14 +4,14 @@ package com.costular.flatsharing.add_group;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -31,7 +31,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.single.EmptyPermissionListener;
 import com.karumi.dexter.listener.single.PermissionListener;
-import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -44,7 +43,8 @@ import butterknife.ButterKnife;
  */
 public class AddGroupFragment extends Fragment implements AddGroupContract.MyView {
 
-    public static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int REQUEST_TAKE_CAMERA_IMAGE = 1;
+    public static final int REQUEST_PICK_IMAGE = 2;
 
     @Bind(R.id.header_image) ImageView headerImage;
     @Bind(R.id.add_group_title_layout) TextInputLayout addGroupTitleInputLayout;
@@ -93,21 +93,63 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
     public boolean onContextItemSelected(MenuItem item){
         switch (item.getItemId()){
             case R.id.context_add_group_gallery:
-                try {
-                    presenter.selectPictureFromGallery();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                pickPictureFromGallery();
                 return true;
             case R.id.context_add_group_camera:
                 takePictureWithPermissions();
                 return true;
+            case R.id.context_default_picture:
+                deletePicture();
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
-    void takePictureWithPermissions() {
+    private void deletePicture() {
+        try {
+            presenter.deletePicture();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void pickPictureFromGallery() {
+        if(Build.VERSION.SDK_INT >= 23) {
+            selectPictureFromGalleryWithPermissions();
+        }else {
+            selectPictureFromGalleryWithoutPermissions();
+        }
+    }
+
+    private void selectPictureFromGalleryWithPermissions() {
+        PermissionListener permissionListener = new EmptyPermissionListener() {
+            @Override
+            public void onPermissionGranted(PermissionGrantedResponse response) {
+                try{
+                    presenter.selectPictureFromGallery();
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onPermissionDenied(PermissionDeniedResponse response) {
+                Snackbar.make(getView(), R.string.we_need_file_permission,
+                        Snackbar.LENGTH_LONG).show();
+            }
+        };
+        Dexter.checkPermission(permissionListener, Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+    private void selectPictureFromGalleryWithoutPermissions() {
+        try{
+            presenter.selectPictureFromGallery();
+        }catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void takePictureWithPermissions() {
         PermissionListener permissionListener = new EmptyPermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {
@@ -145,9 +187,46 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
     }
 
     @Override
-    public void loadImageSelectedIntoView(String whereIs) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_TAKE_CAMERA_IMAGE:
+                    String path = presenter.getImageFile().getPath();
+                    loadImageSelectedIntoViewByPath(path);
+                    break;
+                case REQUEST_PICK_IMAGE:
+                    if(data != null) {
+                        Uri currentUri = data.getData();
+                        String realPath = getRealPathFromURI(currentUri);
+                        loadImageSelectedIntoViewByPath("file://"+realPath);
+                    }
+                    break;
+            }
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+
+        String [] proj={MediaStore.Images.Media.DATA};
+        Cursor cursor = getActivity().getContentResolver().query( contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(column_index);
+    }
+
+    private void loadImageSelectedIntoViewByPath(String whereIs) {
         Picasso.with(getActivity())
                 .load(Uri.parse(whereIs))
+                .fit()
+                .centerCrop()
+                .into(headerImage);
+    }
+
+    private void loadImageSelectedintoViewByDrawable(int drawable) {
+        Picasso.with(getActivity())
+                .load(drawable)
                 .fit()
                 .centerCrop()
                 .into(headerImage);
@@ -158,31 +237,27 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(whereSave));
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK && requestCode == REQUEST_IMAGE_CAPTURE) {
-            String path = presenter.getImageFile().getPath();
-            loadImageSelectedIntoView(path);
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_CAMERA_IMAGE);
         }
     }
 
     @Override
     public void showImageError() {
-
+        Snackbar.make(getView(), R.string.add_group_error_adding_image,
+                Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void setDefaultPicture() {
-
+        loadImageSelectedintoViewByDrawable(R.drawable.group_placeholder);
     }
 
     @Override
     public void selectPictureFromGallery() {
-
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_any_picture)), REQUEST_PICK_IMAGE);
     }
 
     @Override

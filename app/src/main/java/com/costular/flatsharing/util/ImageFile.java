@@ -11,6 +11,8 @@ public interface ImageFile {
 
     void override(String filename, String extension) throws IOException;
 
+    void setPath(String uriFile);
+
     boolean exists();
 
     String getPath();

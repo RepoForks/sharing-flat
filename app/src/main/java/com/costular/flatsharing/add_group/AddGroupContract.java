@@ -18,8 +18,6 @@ public interface AddGroupContract {
 
         void showSelectImageInputDialog(android.view.View view);
 
-        void loadImageSelectedIntoView(String whereIs);
-
         void openCamera(String whereSave);
 
         void showImageError();

@@ -61,5 +61,6 @@ public class AddGroupPresenter implements AddGroupContract.UserActionListener{
     @Override
     public void deletePicture() throws IOException {
         imageFile.delete();
+        view.setDefaultPicture();
     }
 }

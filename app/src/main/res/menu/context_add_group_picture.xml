@@ -9,4 +9,8 @@
         android:id="@+id/context_add_group_camera"
         android:title="@string/add_group_camera"/>
 
+    <item
+        android:id="@+id/context_default_picture"
+        android:title="@string/context_add_group_default_picture"/>
+
 </menu>
