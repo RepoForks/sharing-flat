@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 public class AddGroupPresenterTest {
 
     @Mock
-    private AddGroupContract.View view;
+    private AddGroupContract.MyView view;
     @Mock
     private ImageFile imageFile;
     private AddGroupPresenter presenter;

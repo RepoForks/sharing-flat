@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,13 @@ import android.widget.ProgressBar;
 
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.add_group.AddGroupActivity;
+import com.costular.flatsharing.data.FakeApiService;
+import com.costular.flatsharing.data.Group;
+import com.costular.flatsharing.data.GroupDataCached;
+import com.costular.flatsharing.util.AutofitRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,8 +35,10 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
 
     private GroupsPresenter groupsPresenter;
     private FloatingActionButton fabAddGroup;
+    private GroupsAdapter adapter;
 
     @Bind(R.id.loading) ProgressBar loadingProgressBar;
+    @Bind(R.id.recycler_view) AutofitRecyclerView recyclerView;
 
     public static GroupsFragment newInstance() {
         return new GroupsFragment();
@@ -44,7 +55,7 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        groupsPresenter = new GroupsPresenter(this);
+        groupsPresenter = new GroupsPresenter(this, new GroupDataCached(new FakeApiService(10)));
 
         fabAddGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +63,23 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
                 groupsPresenter.addNewGroup();
             }
         });
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        adapter = new GroupsAdapter(new ArrayList<Group>(0), new GroupsAdapter.GroupActionListener() {
+            @Override
+            public void groupClicked(Group group) {
+                groupsPresenter.openGroupDetail(group);
+            }
+        });
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(groupsPresenter != null) {
+            groupsPresenter.loadGroups(false);
+        }
     }
 
     @Override
@@ -75,7 +103,18 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     }
 
     @Override
+    public void showErrorMessage(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    @Override
     public void showGroupDetail(String groupId) {
 
+    }
+
+    @Override
+    public void showGroups(List<Group> groupList) {
+        adapter.replaceListData(groupList);
     }
 }

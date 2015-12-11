@@ -2,6 +2,8 @@ package com.costular.flatsharing.groups;
 
 import com.costular.flatsharing.data.Group;
 
+import java.util.List;
+
 /**
  * Created by diego on 7/12/15.
  */
@@ -13,7 +15,11 @@ public interface GroupsContract {
 
         void showAddGroup();
 
+        void showErrorMessage(String message);
+
         void showGroupDetail(String groupId);
+
+        void showGroups(List<Group> groupList);
     }
 
     interface UserActionListener {

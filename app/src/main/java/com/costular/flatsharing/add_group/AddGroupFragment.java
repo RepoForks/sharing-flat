@@ -266,7 +266,7 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
         if (item.getItemId() == R.id.action_done) {
             if(presenter != null) {
                 presenter.saveGroup(new Group(addGroupTitleEditText.getText().toString(),
-                        addGroupDescriptionEditText.getText().toString()));
+                        addGroupDescriptionEditText.getText().toString(), null));
                 return true;
             }
         }
