@@ -25,6 +25,8 @@ public interface AddGroupContract {
         void setDefaultPicture();
 
         void selectPictureFromGallery();
+
+        void showError(String message);
     }
 
     interface UserActionListener {

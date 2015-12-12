@@ -24,7 +24,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.costular.flatsharing.R;
+import com.costular.flatsharing.data.FakeApiService;
 import com.costular.flatsharing.data.Group;
+import com.costular.flatsharing.data.Repository;
 import com.costular.flatsharing.util.AndroidImageFile;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -81,7 +83,7 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
                 presenter.addPicture(v);
             }
         });
-        presenter = new AddGroupPresenter(this, AndroidImageFile.newInstance());
+        presenter = new AddGroupPresenter(this, AndroidImageFile.newInstance(), Repository.getInMemoryRepoInstance(new FakeApiService(9)));
     }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
@@ -261,12 +263,17 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
     }
 
     @Override
+    public void showError(String message) {
+        Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.action_done) {
             if(presenter != null) {
-                presenter.saveGroup(new Group(addGroupTitleEditText.getText().toString(),
-                        addGroupDescriptionEditText.getText().toString(), null));
+                presenter.saveGroup(new Group(-1, addGroupTitleEditText.getText().toString(),
+                        addGroupDescriptionEditText.getText().toString(), presenter.getImageFile().getPath()));
                 return true;
             }
         }

@@ -20,6 +20,8 @@ public interface GroupsContract {
         void showGroupDetail(String groupId);
 
         void showGroups(List<Group> groupList);
+
+        void showGroupDetail(Group group);
     }
 
     interface UserActionListener {

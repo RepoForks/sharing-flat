@@ -13,7 +13,7 @@ public class Group {
     private String imageURL;
     private String[] members;
 
-    public Group(int id, @Nullable String title, @Nullable String description,
+    public Group(@Nullable int id, @Nullable String title, @Nullable String description,
                  @Nullable String imageURL) {
         this.id = id;
         this.title = title;

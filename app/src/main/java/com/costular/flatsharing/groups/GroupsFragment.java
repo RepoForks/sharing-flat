@@ -20,6 +20,7 @@ import com.costular.flatsharing.add_group.AddGroupActivity;
 import com.costular.flatsharing.data.FakeApiService;
 import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.GroupDataCached;
+import com.costular.flatsharing.data.Repository;
 import com.costular.flatsharing.util.AutofitRecyclerView;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        groupsPresenter = new GroupsPresenter(this, new GroupDataCached(new FakeApiService(10)));
+        groupsPresenter = new GroupsPresenter(this, Repository.getInMemoryRepoInstance(new FakeApiService(9)));
 
         refreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
@@ -133,5 +134,10 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     @Override
     public void showGroups(List<Group> groupList) {
         adapter.replaceListData(groupList);
+    }
+
+    @Override
+    public void showGroupDetail(Group group) {
+
     }
 }

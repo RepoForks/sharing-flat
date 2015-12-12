@@ -3,6 +3,8 @@ package com.costular.flatsharing.add_group;
 import android.view.View;
 
 import com.costular.flatsharing.data.Group;
+import com.costular.flatsharing.data.GroupDataSource;
+import com.costular.flatsharing.data.GroupsApiService;
 import com.costular.flatsharing.util.ImageFile;
 
 import java.io.File;
@@ -17,10 +19,12 @@ public class AddGroupPresenter implements AddGroupContract.UserActionListener{
 
     private AddGroupContract.MyView view;
     private ImageFile imageFile;
+    private GroupDataSource groupDataSource;
 
-    public AddGroupPresenter(AddGroupContract.MyView view, ImageFile imageFile) {
+    public AddGroupPresenter(AddGroupContract.MyView view, ImageFile imageFile, GroupDataSource dataSource) {
         this.view = view;
         this.imageFile = imageFile;
+        this.groupDataSource = dataSource;
     }
 
     @Override
@@ -28,7 +32,18 @@ public class AddGroupPresenter implements AddGroupContract.UserActionListener{
         if(group == null || group.isTitleEmpty()) {
             view.showEmptyGroupTitleError();
         } else {
-            view.showGroupsList();
+            groupDataSource.addGroup(group, new GroupsApiService.GroupsServiceListener<Boolean>() {
+                @Override
+                public void onDataLoaded(Boolean response) {
+                    view.showGroupsList();
+                }
+
+                @Override
+                public void onError(String message) {
+                    view.showError("Error al crear grupo");
+                }
+            });
+
         }
     }
 
