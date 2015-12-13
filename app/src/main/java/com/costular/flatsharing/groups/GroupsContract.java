@@ -17,8 +17,6 @@ public interface GroupsContract {
 
         void showErrorMessage(String message);
 
-        void showGroupDetail(String groupId);
-
         void showGroups(List<Group> groupList);
 
         void showGroupDetail(Group group);

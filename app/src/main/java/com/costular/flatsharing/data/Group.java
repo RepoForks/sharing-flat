@@ -1,11 +1,13 @@
 package com.costular.flatsharing.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 /**
  * Created by diego on 7/12/15.
  */
-public class Group {
+public class Group implements Parcelable{
 
     private int id;
     private String title;
@@ -13,7 +15,7 @@ public class Group {
     private String imageURL;
     private String[] members;
 
-    public Group(@Nullable int id, @Nullable String title, @Nullable String description,
+    public Group(int id, String title, @Nullable String description,
                  @Nullable String imageURL) {
         this.id = id;
         this.title = title;
@@ -21,10 +23,8 @@ public class Group {
         this.imageURL = imageURL;
     }
 
-    public Group(@Nullable String title, @Nullable String description, String[] members) {
-        this.title = title;
-        this.description = description;
-        this.members = members;
+    public Group(Parcel parcel) {
+        readFromParcel(parcel);
     }
 
     public boolean isTitleEmpty() {
@@ -72,5 +72,36 @@ public class Group {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public static final Parcelable.Creator<Group> CREATOR
+            = new Parcelable.Creator<Group>() {
+        public Group createFromParcel(Parcel in) {
+            return new Group(in);
+        }
+
+        public Group[] newArray(int size) {
+            return new Group[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(description == null ? "" : description);
+        dest.writeString(imageURL);
+    }
+
+    private void readFromParcel(Parcel in) {
+        setId(in.readInt());
+        setTitle(in.readString());
+        setDescription(in.readString());
+        setImageURL(in.readString());
     }
 }

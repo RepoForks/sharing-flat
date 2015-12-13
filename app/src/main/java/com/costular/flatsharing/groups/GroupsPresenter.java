@@ -41,6 +41,6 @@ public class GroupsPresenter implements GroupsContract.UserActionListener{
 
     @Override
     public void openGroupDetail(Group group) {
-
+        groupsView.showGroupDetail(group);
     }
 }

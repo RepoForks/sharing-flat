@@ -21,6 +21,7 @@ import com.costular.flatsharing.data.FakeApiService;
 import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.GroupDataCached;
 import com.costular.flatsharing.data.Repository;
+import com.costular.flatsharing.group_detail.GroupDetailActivity;
 import com.costular.flatsharing.util.AutofitRecyclerView;
 
 import java.util.ArrayList;
@@ -127,8 +128,12 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     }
 
     @Override
-    public void showGroupDetail(String groupId) {
-
+    public void showGroupDetail(Group group) {
+        Intent intent = new Intent(getActivity(), GroupDetailActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(GroupDetailActivity.GROUP, group);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 
     @Override
@@ -136,8 +141,4 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
         adapter.replaceListData(groupList);
     }
 
-    @Override
-    public void showGroupDetail(Group group) {
-
-    }
 }
