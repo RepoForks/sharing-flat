@@ -173,6 +173,8 @@ public class AddGroupFragment extends Fragment implements AddGroupContract.MyVie
 
     @Override
     public void showGroupsList() {
+        Intent intent = new Intent();
+        Bundle bundle = new Bundle();
         getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
     }
