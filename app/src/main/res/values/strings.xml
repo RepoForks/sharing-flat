@@ -20,4 +20,5 @@
     <string name="select_any_picture">Selecciona una imagen</string>
     <string name="add_group_error_adding_image">Ha habido un error al obtener la imagen</string>
     <string name="context_add_group_default_picture">Eliminar imagen</string>
+    <string name="action_add_group">Añadir grupo</string>
 </resources>
