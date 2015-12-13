@@ -9,19 +9,24 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.group_detail.GroupDetailActivity;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by diego on 13/12/15.
  */
-public class EconomyFragment extends Fragment {
+public class EconomyFragment extends Fragment implements EconomyContract.MyView{
 
     FloatingActionButton addButton;
+    @Bind(R.id.loading) ProgressBar loadingView;
+
+    private EconomyPresenter presenter;
 
     public static EconomyFragment newInstance(Group group) {
         Bundle bundle = new Bundle();
@@ -43,6 +48,13 @@ public class EconomyFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        presenter = new EconomyPresenter(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.loadTransactions(false);
     }
 
     @Override
@@ -60,5 +72,61 @@ public class EconomyFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void setProgressIndicator(boolean active) {
+        loadingView.setVisibility(active ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showAddTransaction() {
+
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+
+    }
+
+    @Override
+    public void showTransactions() {
+        //setProgressIndicator(false);
+
+    }
+
+    @Override
+    public void showTransactionsActivity() {
+
+    }
+
+    @Override
+    public void showListOfGroups() {
+
+    }
+
+    @Override
+    public void openSettings() {
+
+    }
+
+    @Override
+    public void deleteTransaction() {
+
+    }
+
+    @Override
+    public void confirmDeleteTransaction() {
+
+    }
+
+    @Override
+    public void payTransaction() {
+
+    }
+
+    @Override
+    public void openDetailTransaction() {
+
     }
 }
