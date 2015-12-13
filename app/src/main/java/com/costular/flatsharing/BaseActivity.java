@@ -19,14 +19,7 @@ public class BaseActivity extends AppCompatActivity {
     public static final int OPAQUE = 3;
 
     private Toolbar toolbar;
-    private Handler handler;
     private int status;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        handler = new Handler();
-    }
 
     protected void setUpToolbar(boolean homeEnabled) {
 
@@ -92,13 +85,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void setToolbarTitle(final CharSequence title) {
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                toolbar.setTitle(title);
-            }
-        });
+        getSupportActionBar().setTitle(title);
     }
 
     public void setToolbarColor(int color) {
