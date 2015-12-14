@@ -57,16 +57,6 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
         addButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         drawerLayoutList = (LinearLayout) getActivity().findViewById(R.id.drawer_layout_list);
-        drawerLayoutList.post(new Runnable() {
-            @Override
-            public void run() {
-                Resources resources = getResources();
-                float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, resources.getDisplayMetrics());
-                DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) drawerLayoutList.getLayoutParams();
-                params.width = (int) (width);
-                drawerLayoutList.setLayoutParams(params);
-            }
-        });
         return root;
     }
 
@@ -108,9 +98,9 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
 
     private void toggleDrawer() {
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            drawerLayout.openDrawer(GravityCompat.END);
-        } else {
             drawerLayout.closeDrawer(GravityCompat.END);
+        } else {
+            drawerLayout.openDrawer(GravityCompat.END);
         }
     }
 

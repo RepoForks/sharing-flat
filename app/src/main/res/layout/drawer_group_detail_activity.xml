@@ -7,13 +7,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/drawer_group_detail_activity"/>
+        android:text="@string/drawer_group_detail_activity"
+        android:paddingTop="16dp"
+        style="@style/Subheader"
+        android:gravity="center_horizontal"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:paddingTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"/>
 
 </LinearLayout>
