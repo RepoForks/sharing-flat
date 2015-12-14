@@ -1,19 +1,28 @@
 package com.costular.flatsharing.group_detail.economy;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.costular.flatsharing.R;
+import com.costular.flatsharing.data.FakeEconomyService;
 import com.costular.flatsharing.data.Group;
+import com.costular.flatsharing.data.Repository;
+import com.costular.flatsharing.data.Transaction;
 import com.costular.flatsharing.group_detail.GroupDetailActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,8 +32,12 @@ import butterknife.ButterKnife;
  */
 public class EconomyFragment extends Fragment implements EconomyContract.MyView{
 
-    FloatingActionButton addButton;
+    public DrawerLayout drawerLayout;
+    public LinearLayout drawerLayoutList;
+    public ActionBarDrawerToggle drawerToggle;
+    private FloatingActionButton addButton;
     @Bind(R.id.loading) ProgressBar loadingView;
+
 
     private EconomyPresenter presenter;
 
@@ -42,13 +55,38 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
         View root = inflater.inflate(R.layout.fragment_group_detail_economy, container, false);
         ButterKnife.bind(this, root);
         addButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        drawerLayoutList = (LinearLayout) getActivity().findViewById(R.id.drawer_layout_list);
+        drawerLayoutList.post(new Runnable() {
+            @Override
+            public void run() {
+                Resources resources = getResources();
+                float width = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, resources.getDisplayMetrics());
+                DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) drawerLayoutList.getLayoutParams();
+                params.width = (int) (width);
+                drawerLayoutList.setLayoutParams(params);
+            }
+        });
         return root;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new EconomyPresenter(this);
+        presenter = new EconomyPresenter(this, Repository.getInMemoryRepoEconomyInstance(new FakeEconomyService(9)));
+
+        drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, R.string.open, R.string.close) {
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        drawerLayout.setDrawerListener(drawerToggle);
     }
 
     @Override
@@ -58,19 +96,21 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.clear();
-        inflater.inflate(R.menu.group_detail_economy, menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
+        int itemId = item.getItemId();
+        switch (itemId) {
             case R.id.action_activity:
-                return true;
+                toggleDrawer();
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void toggleDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.openDrawer(GravityCompat.END);
+        } else {
+            drawerLayout.closeDrawer(GravityCompat.END);
         }
     }
 
@@ -90,7 +130,7 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     }
 
     @Override
-    public void showTransactions() {
+    public void showTransactions(List<Transaction> transactionList) {
         //setProgressIndicator(false);
 
     }

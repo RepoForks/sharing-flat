@@ -1,5 +1,9 @@
 package com.costular.flatsharing.group_detail.economy;
 
+import com.costular.flatsharing.data.Transaction;
+
+import java.util.List;
+
 /**
  * Created by diego on 13/12/15.
  */
@@ -13,7 +17,7 @@ public class EconomyContract {
 
         void showErrorMessage(String message);
 
-        void showTransactions(); // List of transaactions
+        void showTransactions(List<Transaction> transactionList);
 
         void showTransactionsActivity();
 

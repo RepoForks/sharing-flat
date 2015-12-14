@@ -29,4 +29,7 @@
     <string name="detail_tab_section_tasks">Tareas</string>
     <string name="detail_tab_section_list">Listas</string>
     <string name="action_activity">Actividad</string>
+    <string name="drawer_group_detail_activity">Actividad</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
 </resources>

@@ -1,13 +1,21 @@
 package com.costular.flatsharing.group_detail.economy;
 
+import com.costular.flatsharing.data.EconomyDataCached;
+import com.costular.flatsharing.data.EconomyDataSource;
+import com.costular.flatsharing.data.Transaction;
+
+import java.util.List;
+
 /**
  * Created by diego on 13/12/15.
  */
 public class EconomyPresenter implements EconomyContract.UserActionListener{
 
-    EconomyContract.MyView view;
+    private EconomyContract.MyView view;
+    private EconomyDataSource economyApi;
 
-    public EconomyPresenter(EconomyContract.MyView view) {
+    public EconomyPresenter(EconomyContract.MyView view, EconomyDataSource economyApi) {
+        this.economyApi = economyApi;
         this.view = view;
     }
 
@@ -38,7 +46,17 @@ public class EconomyPresenter implements EconomyContract.UserActionListener{
 
     @Override
     public void loadTransactions(boolean forceUpdate) {
-        view.showTransactions();
+        economyApi.getActivityTransactions(new EconomyDataSource.Callback() {
+            @Override
+            public void onActivityLoaded(List<Transaction> transactionList) {
+                view.showTransactions(transactionList);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                view.showErrorMessage(errorMessage);
+            }
+        });
     }
 
     @Override
