@@ -28,6 +28,8 @@
         android:paddingBottom="8dp"
         android:textSize="16sp"
         android:text="User"
+        android:maxLines="1"
+        android:ellipsize="end"
         style="@style/TextAppearance.AppCompat.Body1"/>
     
 </RelativeLayout>
