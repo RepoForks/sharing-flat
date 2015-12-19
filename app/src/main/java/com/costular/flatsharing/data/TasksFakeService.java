@@ -2,6 +2,7 @@ package com.costular.flatsharing.data;
 
 import android.os.Handler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ public class TasksFakeService implements TasksApiService{
     private List<User> userList;
 
     public TasksFakeService(int size) {
+        userList = new ArrayList<>(size);
         for(int i = 1; i <= size; i++) {
             userList.add(new User(i, fakeNames[i -1], fakeAvatars[i -1], "email@email.com"));
         }

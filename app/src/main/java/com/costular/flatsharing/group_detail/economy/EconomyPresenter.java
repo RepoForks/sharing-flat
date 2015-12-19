@@ -60,7 +60,7 @@ public class EconomyPresenter implements EconomyContract.UserActionListener{
     }
 
     @Override
-    public void deleteFransaction() {
+    public void deleteTransaction() {
 
     }
 

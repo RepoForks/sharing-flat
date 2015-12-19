@@ -48,7 +48,7 @@ public class EconomyContract {
 
         void loadTransactions(boolean forceUpdate);
 
-        void deleteFransaction();
+        void deleteTransaction();
 
         void confirmDeleteTransaction();
 
