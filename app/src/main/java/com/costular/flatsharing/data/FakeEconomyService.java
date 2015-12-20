@@ -2,6 +2,8 @@ package com.costular.flatsharing.data;
 
 import android.os.Handler;
 
+import com.costular.flatsharing.util.MathUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,9 +19,13 @@ public class FakeEconomyService implements EconomyApiService{
 
     public FakeEconomyService(int size) {
         transactions = new ArrayList<>();
+
+        User payer = new User(1, "Diego F", "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAccAAAAJGVkZjkzMmNhLTU1YjQtNDgwMC04Mjc5LTI0NWQzZDIyZjJmYg.jpg", "diegooo.fc@gmail.com");
+        User payerTwo = new User(2, "Diego R", "http://i.imgur.com/FA63bAp.jpg", "apdokwaopd@gmail.com");
+        User payerReceiver = new User(2, "Todos", "", "");
         for(int i = 1; i <= size; i++) {
-            String now = new SimpleDateFormat("dd/MM/yyyy HH:mm:sss").format(new Date());
-            transactions.add(new Transaction(i, null, i+20, null, "Subject " + i, now, false, ""));
+            String now = new SimpleDateFormat("dd/MM/yy").format(new Date());
+            transactions.add(new Transaction(i, new User[] {payer}, MathUtils.randInt(i, 40), new User[] {payerReceiver}, "Subject " + i, now, false, ""));
         }
         Collections.reverse(transactions);
     }

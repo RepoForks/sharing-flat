@@ -33,7 +33,7 @@ public class TasksFragment extends Fragment implements TasksContract.MyView{
         return new TasksFragment();
     }
 
-    @Bind(R.id.recycler_view) RecyclerView recyclerView;
+    @Bind(R.id.tasks_recycler_view) RecyclerView recyclerView;
     @Bind(R.id.loading_view) ProgressBar loadingView;
 
     private TasksPresenter presenter;

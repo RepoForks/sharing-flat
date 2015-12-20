@@ -31,6 +31,7 @@ dependencies {
     compile 'com.karumi:dexter:2.1.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.yqritc:recyclerview-flexibledivider:1.2.6'
 
     testCompile 'junit:junit:4.12'
     testCompile "org.mockito:mockito-all:1.10.19"

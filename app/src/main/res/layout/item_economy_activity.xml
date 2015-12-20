@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="72dp"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/economy_activity_user_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/economy_activity_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:maxLines="1"
+        android:ellipsize="end"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:text="19/12/15 18:48"/>
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/economy_activity_user_avatar"
+        android:layout_centerVertical="true"
+        android:paddingLeft="16dp"
+        android:layout_toLeftOf="@id/economy_activity_datetime"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/economy_activity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="title"
+            style="@style/TextAppearance.AppCompat.Body2"/>
+
+        <TextView
+            android:id="@+id/economy_activity_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_marginBottom="8dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="Esta es la descripción"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

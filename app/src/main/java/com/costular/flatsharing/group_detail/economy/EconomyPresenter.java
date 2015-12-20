@@ -49,6 +49,7 @@ public class EconomyPresenter implements EconomyContract.UserActionListener{
         economyApi.getActivityTransactions(new EconomyDataSource.Callback() {
             @Override
             public void onActivityLoaded(List<Transaction> transactionList) {
+                view.setProgressIndicator(false);
                 view.showTransactions(transactionList);
             }
 

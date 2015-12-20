@@ -32,4 +32,8 @@
     <string name="drawer_group_detail_activity">Actividad</string>
     <string name="open">Abrir</string>
     <string name="close">Cerrar</string>
+
+    <string name="economy_activity_singular_payment_title">%1$s pagó %2$d€</string>
+    <string name="economy_activity_plural_payment_title">%1$s pagaron %2$d€</string>
+    <string name="economy_activity_payment_to">Para: %1$s</string>
 </resources>

@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,6 +24,7 @@ import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.Repository;
 import com.costular.flatsharing.data.Transaction;
 import com.costular.flatsharing.group_detail.GroupDetailActivity;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
 
@@ -37,7 +41,8 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     public ActionBarDrawerToggle drawerToggle;
     private FloatingActionButton addButton;
     @Bind(R.id.loading) ProgressBar loadingView;
-
+    private RecyclerView recyclerView;
+    private EconomyActivityAdapter adapter;
 
     private EconomyPresenter presenter;
 
@@ -57,6 +62,7 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
         addButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         drawerLayoutList = (LinearLayout) getActivity().findViewById(R.id.drawer_layout_list);
+        recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         return root;
     }
 
@@ -77,6 +83,16 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
         };
 
         drawerLayout.setDrawerListener(drawerToggle);
+        adapter = new EconomyActivityAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        /*recyclerView.addItemDecoration(
+        new HorizontalDividerItemDecoration.Builder(getActivity())
+                .colorResId(R.color.dividerColor)
+                .marginResId(R.dimen.divider_left_margin, R.dimen.zero)
+                .build()
+        );*/
     }
 
     @Override
@@ -121,8 +137,7 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
 
     @Override
     public void showTransactions(List<Transaction> transactionList) {
-        //setProgressIndicator(false);
-
+        adapter.replaceAndUpdateData(transactionList);
     }
 
     @Override
