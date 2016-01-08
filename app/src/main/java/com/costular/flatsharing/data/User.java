@@ -1,9 +1,12 @@
 package com.costular.flatsharing.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by diego on 17/12/15.
  */
-public class User {
+public class User implements Parcelable {
 
     int id;
     String name;
@@ -15,6 +18,10 @@ public class User {
         this.name = name;
         this.avatarURL = avatarURL;
         this.email = email;
+    }
+
+    public User(Parcel parcel) {
+        readFromParcel(parcel);
     }
 
     public int getId() {
@@ -47,5 +54,36 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<User> CREATOR
+            = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(avatarURL);
+        dest.writeString(email);
+    }
+
+    private void readFromParcel(Parcel in) {
+        setId(in.readInt());
+        setName(in.readString());
+        setAvatarURL(in.readString());
+        setEmail(in.readString());
     }
 }

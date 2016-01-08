@@ -25,13 +25,15 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.User
 
     private List<User> userList;
     private Context context;
+    private TaskUserClicked listener;
 
-    public UserTasksAdapter() {
+    public UserTasksAdapter(TaskUserClicked listener) {
         this.userList = new ArrayList<>();
+        this.listener = listener;
     }
 
-    public UserTasksAdapter(List<User> userList) {
-        this();
+    public UserTasksAdapter(List<User> userList, TaskUserClicked listener) {
+        this(listener);
         userList.addAll(userList);
     }
 
@@ -52,7 +54,7 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.User
     public UserTasksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tasks_user_list, parent, false);
-        return new UserTasksViewHolder(root);
+        return new UserTasksViewHolder(root, listener);
     }
 
     @Override
@@ -76,14 +78,31 @@ public class UserTasksAdapter extends RecyclerView.Adapter<UserTasksAdapter.User
         return userList.size();
     }
 
-    public class UserTasksViewHolder extends RecyclerView.ViewHolder {
+    public class UserTasksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @Bind(R.id.user_avatar_icon) CircleImageView avatarUserIcon;
         @Bind(R.id.user_name) TextView userName;
 
-        public UserTasksViewHolder(View itemView) {
+        private TaskUserClicked listener;
+
+
+        public UserTasksViewHolder(View itemView, TaskUserClicked listener) {
             super(itemView);
+            this.listener = listener;
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if(listener != null) {
+                listener.onTaskUserClicked(getItem(position));
+            }
+        }
+    }
+
+    public interface TaskUserClicked {
+        void onTaskUserClicked(User user);
     }
 }

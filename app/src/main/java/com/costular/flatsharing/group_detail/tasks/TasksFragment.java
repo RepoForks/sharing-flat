@@ -1,5 +1,6 @@
 package com.costular.flatsharing.group_detail.tasks;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.TasksDataCached;
 import com.costular.flatsharing.data.TasksFakeService;
 import com.costular.flatsharing.data.User;
+import com.costular.flatsharing.group_detail.tasks.tasks_list_detail.TaskListDetailActivity;
+import com.costular.flatsharing.group_detail.tasks.tasks_list_detail.TaskListDetailFragment;
 
 import java.util.List;
 
@@ -52,7 +55,12 @@ public class TasksFragment extends Fragment implements TasksContract.MyView{
         super.onActivityCreated(savedInstanceState);
         presenter = new TasksPresenter(this, new TasksDataCached(new TasksFakeService(3)));
 
-        adapter = new UserTasksAdapter();
+        adapter = new UserTasksAdapter(new UserTasksAdapter.TaskUserClicked() {
+            @Override
+            public void onTaskUserClicked(User user) {
+                presenter.openUserDetail(user);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -85,7 +93,11 @@ public class TasksFragment extends Fragment implements TasksContract.MyView{
     }
 
     @Override
-    public void openUserDetail() {
-
+    public void openUserDetail(User user) {
+        Intent intent = new Intent(getActivity(), TaskListDetailActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(TaskListDetailFragment.ARGUMENT_USER, user);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 }

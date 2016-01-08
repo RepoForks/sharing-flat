@@ -36,4 +36,8 @@
     <string name="economy_activity_singular_payment_title">%1$s pagó %2$d€</string>
     <string name="economy_activity_plural_payment_title">%1$s pagaron %2$d€</string>
     <string name="economy_activity_payment_to">Para: %1$s</string>
+    <string name="title_activity_task_list_detail">TaskListDetailActivity</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

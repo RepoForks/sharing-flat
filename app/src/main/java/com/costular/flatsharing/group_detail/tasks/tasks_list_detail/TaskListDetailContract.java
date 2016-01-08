@@ -1,13 +1,14 @@
-package com.costular.flatsharing.group_detail.tasks.tasks_detail;
+package com.costular.flatsharing.group_detail.tasks.tasks_list_detail;
 
 import com.costular.flatsharing.data.Task;
+import com.costular.flatsharing.data.User;
 
 import java.util.List;
 
 /**
  * Created by diego on 19/12/15.
  */
-public interface TaskDetailContract {
+public interface TaskListDetailContract {
 
     public interface MyView {
 
@@ -15,6 +16,6 @@ public interface TaskDetailContract {
     }
 
     public interface UserActionListener {
-
+        void openUserTask(User user);
     }
 }

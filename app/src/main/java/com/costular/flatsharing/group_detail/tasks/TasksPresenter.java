@@ -40,7 +40,7 @@ public class TasksPresenter implements TasksContract.UserActionListener{
     }
 
     @Override
-    public void openUserDetail() {
-
+    public void openUserDetail(User user) {
+        view.openUserDetail(user);
     }
 }

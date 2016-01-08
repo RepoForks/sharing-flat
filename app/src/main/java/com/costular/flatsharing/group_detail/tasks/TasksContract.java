@@ -19,7 +19,7 @@ public interface TasksContract {
 
         void showAddTask();
 
-        void openUserDetail();
+        void openUserDetail(User user);
     }
 
     public interface UserActionListener {
@@ -28,6 +28,6 @@ public interface TasksContract {
 
         void addTransaction();
 
-        void openUserDetail();
+        void openUserDetail(User user);
     }
 }
