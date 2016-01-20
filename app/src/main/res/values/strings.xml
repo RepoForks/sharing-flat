@@ -40,10 +40,13 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add_transaction_subtitle_who_pays">¿Quién pagó?</string>
-    <string name="add_transaction_subtitle_how_much">¿Cuánto pagó?</string>
-    <string name="add_transaction_subtitle_payment_for">¿Para quién?</string>
+    <string name="add_transaction_subtitle_who_pays">¿Quién pagó? *</string>
+    <string name="add_transaction_subtitle_how_much">¿Cuánto pagó? *</string>
+    <string name="add_transaction_subtitle_payment_for">¿Para quién? *</string>
     <string name="symbol_eur">€</string>
     <string name="transaction_added_successfully">Cuenta añadida con éxito</string>
     <string name="action_save">Guardar</string>
+    <string name="add_transaction_toolbar_title">Añadir cuenta</string>
+    <string name="add_transaction_subject">Concepto</string>
+    <string name="add_transaction_subtitle_subject">Concepto</string>
 </resources>

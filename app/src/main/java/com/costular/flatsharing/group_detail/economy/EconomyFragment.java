@@ -51,6 +51,7 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     private EconomyActivityAdapter adapter;
 
     private EconomyPresenter presenter;
+    private Group group;
 
     public static EconomyFragment newInstance(Group group) {
         Bundle bundle = new Bundle();
@@ -76,6 +77,8 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         presenter = new EconomyPresenter(this, Repository.getInMemoryRepoEconomyInstance(new FakeEconomyService(9)));
+        group = getArguments().getParcelable(GroupDetailActivity.GROUP);
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +143,9 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     @Override
     public void showAddTransaction() {
         Intent intent = new Intent(getActivity(), AddTransactionActivity.class);
+        Bundle extras = new Bundle();
+        extras.putParcelable(GroupDetailActivity.GROUP, group);
+        intent.putExtras(extras);
         startActivityForResult(intent, REQUEST_ADD_TRANSACTION);
     }
 

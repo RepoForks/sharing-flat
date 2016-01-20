@@ -1,22 +1,27 @@
 package com.costular.flatsharing.group_detail.economy.add_transaction;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.data.FakeEconomyService;
 import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.Repository;
+import com.costular.flatsharing.data.User;
 import com.costular.flatsharing.group_detail.GroupDetailActivity;
 import com.costular.flatsharing.util.AddTransactionSpinnerAdapter;
 
@@ -32,6 +37,7 @@ public class AddTransactionFragment extends Fragment implements AddTransactionCo
     private Group group;
 
     @Bind(R.id.add_transaction_spinner_who_pays) Spinner userPayerSpinner;
+    @Bind(R.id.add_transaction_linear_layout) LinearLayout layout;
 
     public static Fragment newInstance(Group group) {
         Bundle extras = new Bundle();
@@ -48,7 +54,6 @@ public class AddTransactionFragment extends Fragment implements AddTransactionCo
                 parent, false);
         setHasOptionsMenu(true);
         ButterKnife.bind(this, root);
-        group = getArguments().getParcelable(GroupDetailActivity.GROUP);
         return root;
     }
 
@@ -56,6 +61,14 @@ public class AddTransactionFragment extends Fragment implements AddTransactionCo
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         presenter = new AddTransactionPresenter(this, Repository.getInMemoryRepoEconomyInstance(new FakeEconomyService(3)));
+        group = getArguments().getParcelable(GroupDetailActivity.GROUP);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserSpinner();
+        loadUserPayments();
     }
 
     @Override
@@ -95,7 +108,20 @@ public class AddTransactionFragment extends Fragment implements AddTransactionCo
 
     @Override
     public void loadUserPayments() {
+        layout.removeAllViews();
 
+        for(User user : group.getMembers()) {
+            /*LinearLayout layout = new LinearLayout(getActivity());
+            layout.setOrientation(LinearLayout.HORIZONTAL);
+            layout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;*/
+
+            TextView name = new TextView(getActivity());
+            name.setText(user.getName());
+
+            layout.addView(name, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
     }
 
     @Override

@@ -80,11 +80,19 @@ public class AddTransactionSpinnerAdapter extends BaseAdapter {
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null || !view.getTag().toString().equals("NON_DROPDOWN")) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.
-                    toolbar_spinner_item_actionbar, parent, false);
+                    spinner_add_transaction_user_selection, parent, false);
             view.setTag("NON_DROPDOWN");
         }
+
         TextView textView = (TextView) view.findViewById(android.R.id.text1);
+        CircleImageView avatarImage = (CircleImageView) view.findViewById(R.id.avatar_image);
         textView.setText(getTitle(position));
+
+        Picasso.with(parent.getContext())
+                .load(getImageUrl(position))
+                .placeholder(R.drawable.group_placeholder)
+                .into(avatarImage);
+
         return view;
     }
 
