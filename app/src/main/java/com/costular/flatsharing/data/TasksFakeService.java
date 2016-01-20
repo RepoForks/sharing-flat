@@ -1,6 +1,7 @@
 package com.costular.flatsharing.data;
 
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +11,10 @@ import java.util.List;
  */
 public class TasksFakeService implements TasksApiService{
 
-    private String[] fakeNames = {"Diego F", "Diego R", "Eusebio"};
-    private String[] fakeAvatars = {"https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAccAAAAJGVkZjkzMmNhLTU1YjQtNDgwMC04Mjc5LTI0NWQzZDIyZjJmYg.jpg",
-            "http://i.imgur.com/FA63bAp.jpg",
-            "http://cd00.epimg.net/cincodias/imagenes/2013/02/15/economia/1361168906_740215_0000000001_noticia_normal.jpg"};
-    private List<User> userList;
+    private Group group;
 
-    public TasksFakeService(int size) {
-        userList = new ArrayList<>(size);
-        for(int i = 1; i <= size; i++) {
-            userList.add(new User(i, fakeNames[i -1], fakeAvatars[i -1], "email@email.com"));
-        }
+    public TasksFakeService(Group group) {
+        this.group = group;
     }
 
     @Override
@@ -29,13 +23,17 @@ public class TasksFakeService implements TasksApiService{
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                responseCallback.onDataLoaded(userList);
+                responseCallback.onDataLoaded(group.getMembers());
             }
         }, 1500);
     }
 
     @Override
-    public void getUser(int id, TasksApiServiceListener<User> user) {
-
+    public void getUser(int id, TasksApiServiceListener<User> response) {
+        for(User currentUser : group.getMembers()) {
+            if(currentUser.getId() == id) {
+                response.onDataLoaded(currentUser);
+            }
+        }
     }
 }

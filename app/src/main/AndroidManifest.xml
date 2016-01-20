@@ -35,6 +35,10 @@
             android:label="@string/title_activity_task_list_detail"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity android:name=".group_detail.economy.add_transaction.AddTransactionActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

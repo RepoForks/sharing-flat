@@ -17,6 +17,7 @@ import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.TasksDataCached;
 import com.costular.flatsharing.data.TasksFakeService;
 import com.costular.flatsharing.data.User;
+import com.costular.flatsharing.group_detail.GroupDetailActivity;
 import com.costular.flatsharing.group_detail.tasks.tasks_list_detail.TaskListDetailActivity;
 import com.costular.flatsharing.group_detail.tasks.tasks_list_detail.TaskListDetailFragment;
 
@@ -31,9 +32,14 @@ import butterknife.ButterKnife;
 public class TasksFragment extends Fragment implements TasksContract.MyView{
 
     private FloatingActionButton addButton;
+    private Group group;
 
     public static TasksFragment newInstance(Group group) {
-        return new TasksFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable(GroupDetailActivity.GROUP, group);
+        TasksFragment fragment = new TasksFragment();
+        fragment.setArguments(extras);
+        return fragment;
     }
 
     @Bind(R.id.tasks_recycler_view) RecyclerView recyclerView;
@@ -47,13 +53,14 @@ public class TasksFragment extends Fragment implements TasksContract.MyView{
         View root = inflater.inflate(R.layout.fragment_group_detail_tasks, container, false);
         ButterKnife.bind(this, root);
         addButton = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        group = getArguments().getParcelable(GroupDetailActivity.GROUP);
         return root;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new TasksPresenter(this, new TasksDataCached(new TasksFakeService(3)));
+        presenter = new TasksPresenter(this, new TasksDataCached(new TasksFakeService(group)));
 
         adapter = new UserTasksAdapter(new UserTasksAdapter.TaskUserClicked() {
             @Override

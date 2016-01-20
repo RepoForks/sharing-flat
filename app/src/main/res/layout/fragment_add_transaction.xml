@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="16dp"
+    android:layout_height="match_parent">
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="@string/add_transaction_subtitle_who_pays"
+       android:layout_marginBottom="8dp"
+       style="@style/Subheader"/>
+
+    <Spinner
+        android:id="@+id/add_transaction_spinner_who_pays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_transaction_subtitle_how_much"
+        android:layout_marginBottom="8dp"
+        style="@style/Subheader"/>
+
+    <EditText
+        android:id="@+id/add_transaction_field_how_much"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ej: 5"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_transaction_subtitle_payment_for"
+        android:layout_marginBottom="8dp"
+        style="@style/Subheader"/>
+
+
+
+</LinearLayout>

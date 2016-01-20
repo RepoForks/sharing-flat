@@ -29,8 +29,8 @@ public class EconomyDataCached implements EconomyDataSource{
     }
 
     @Override
-    public void addTransaction(Transaction transaction) {
-
+    public void addTransaction(Transaction transaction, EconomyApiService.ApiServiceListener<Boolean> response) {
+        response.onErrorMessage("Aún no está implementado");
     }
 
     @Override

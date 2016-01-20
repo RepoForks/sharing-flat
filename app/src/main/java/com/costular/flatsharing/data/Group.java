@@ -3,6 +3,10 @@ package com.costular.flatsharing.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by diego on 7/12/15.
@@ -13,10 +17,20 @@ public class Group implements Parcelable{
     private String title;
     private String description;
     private String imageURL;
-    private String[] members;
+    private List<User> members;
+
+    private void addMembers() {
+        members = new ArrayList<>();
+        members.add(new User(1, "Diego F", "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAccAAAAJGVkZjkzMmNhLTU1YjQtNDgwMC04Mjc5LTI0NWQzZDIyZjJmYg.jpg",
+                "diegooo.fc@gmail.com"));
+        members.add(new User(2, "Diego R", "http://i.imgur.com/FA63bAp.jpg", "esferca13@gmail.com"));
+        members.add(new User(3, "Eusebio", "http://cd00.epimg.net/cincodias/imagenes/2013/02/15/economia/1361168906_740215_0000000001_noticia_normal.jpg",
+                "euse@gmail.com"));
+    }
 
     public Group(int id, String title, @Nullable String description,
                  @Nullable String imageURL) {
+        addMembers();
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,6 +38,7 @@ public class Group implements Parcelable{
     }
 
     public Group(Parcel parcel) {
+        addMembers();
         readFromParcel(parcel);
     }
 
@@ -58,12 +73,8 @@ public class Group implements Parcelable{
         this.description = description;
     }
 
-    public String[] getMembers() {
+    public List<User> getMembers() {
         return members;
-    }
-
-    public void setMembers(String[] members) {
-        this.members = members;
     }
 
     public String getImageURL() {

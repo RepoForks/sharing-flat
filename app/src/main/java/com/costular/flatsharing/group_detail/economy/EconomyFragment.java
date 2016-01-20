@@ -1,8 +1,11 @@
 package com.costular.flatsharing.group_detail.economy;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +28,7 @@ import com.costular.flatsharing.data.Group;
 import com.costular.flatsharing.data.Repository;
 import com.costular.flatsharing.data.Transaction;
 import com.costular.flatsharing.group_detail.GroupDetailActivity;
+import com.costular.flatsharing.group_detail.economy.add_transaction.AddTransactionActivity;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.List;
@@ -36,6 +41,7 @@ import butterknife.ButterKnife;
  */
 public class EconomyFragment extends Fragment implements EconomyContract.MyView{
 
+    private static final int REQUEST_ADD_TRANSACTION = 1;
     public DrawerLayout drawerLayout;
     public LinearLayout drawerLayoutList;
     public ActionBarDrawerToggle drawerToggle;
@@ -70,6 +76,12 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         presenter = new EconomyPresenter(this, Repository.getInMemoryRepoEconomyInstance(new FakeEconomyService(9)));
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.addTransaction();
+            }
+        });
 
         drawerToggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, R.string.open, R.string.close) {
 
@@ -127,7 +139,17 @@ public class EconomyFragment extends Fragment implements EconomyContract.MyView{
 
     @Override
     public void showAddTransaction() {
+        Intent intent = new Intent(getActivity(), AddTransactionActivity.class);
+        startActivityForResult(intent, REQUEST_ADD_TRANSACTION);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // If a note was successfully added, show snackbar
+        if (REQUEST_ADD_TRANSACTION == requestCode && Activity.RESULT_OK == resultCode) {
+            Snackbar.make(getView(), getString(R.string.transaction_added_successfully),
+                    Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     @Override

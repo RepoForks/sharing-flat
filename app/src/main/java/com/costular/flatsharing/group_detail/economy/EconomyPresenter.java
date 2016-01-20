@@ -21,7 +21,7 @@ public class EconomyPresenter implements EconomyContract.UserActionListener{
 
     @Override
     public void addTransaction() {
-
+        view.showAddTransaction();
     }
 
     @Override

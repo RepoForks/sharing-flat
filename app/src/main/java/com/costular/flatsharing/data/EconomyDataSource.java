@@ -14,7 +14,7 @@ public interface EconomyDataSource {
 
     void getActivityTransactions(Callback callback);
 
-    void addTransaction(Transaction transaction);
+    void addTransaction(Transaction transaction, EconomyApiService.ApiServiceListener<Boolean> response);
 
     void deleteTransaction(Transaction transaction);
 
