@@ -25,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.costular.flatsharing.BaseActivity;
 import com.costular.flatsharing.R;
 import com.costular.flatsharing.data.Group;
@@ -90,9 +92,30 @@ public class GroupDetailActivity extends BaseActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_leave_group:
+                askLeaveGroup();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void askLeaveGroup() {
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(this)
+                .title(R.string.dialog_leave_group_title)
+                .content(R.string.dialog_leave_group_description)
+                .positiveText(R.string.agree)
+                .negativeText(R.string.decline)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        leaveGroup();
+                    }
+                });
+        MaterialDialog dialog = builder.build();
+        dialog.show();
+    }
+
+    private void leaveGroup() {
+        // Borramos al usuario como miembro del grupo, salimos y actualizamos
     }
 }

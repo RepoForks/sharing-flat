@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/drawer_group_detail_activity"
-        android:paddingTop="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         style="@style/Subheader"
         android:gravity="center_horizontal"/>
 
