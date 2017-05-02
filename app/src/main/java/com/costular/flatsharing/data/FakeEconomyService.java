@@ -22,12 +22,12 @@ public class FakeEconomyService implements EconomyApiService{
         transactions = new ArrayList<>();
         users = new ArrayList<>();
 
-        User payer = new User(1, "Diego F", "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAccAAAAJGVkZjkzMmNhLTU1YjQtNDgwMC04Mjc5LTI0NWQzZDIyZjJmYg.jpg", "diegooo.fc@gmail.com");
+        User payer = new User(1, "Diego F", "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAriAAAAJGRkMGFjZTUyLTQ4MDAtNDljMC1hNmIxLTFhMTIwYWJhMDNjOA.jpg", "diegooo.fc@gmail.com");
         User payerTwo = new User(2, "Diego R", "http://i.imgur.com/FA63bAp.jpg", "apdokwaopd@gmail.com");
         User payerReceiver = new User(2, "Todos", "", "");
 
         for(int i = 1; i <= size; i++) {
-            String now = new SimpleDateFormat("dd/MM/yy").format(new Date());
+            String now = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             transactions.add(new Transaction(i, new User[] {payer}, MathUtils.randInt(i, 40), new User[] {payerReceiver}, "Subject " + i, now, false, ""));
         }
         Collections.reverse(transactions);

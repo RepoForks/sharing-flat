@@ -15,7 +15,8 @@ public class Repository {
         return dataCached;
     }
 
-    public synchronized static EconomyDataSource getInMemoryRepoEconomyInstance(EconomyApiService economyApiService) {
+    public synchronized static EconomyDataSource getInMemoryRepoEconomyInstance(
+            EconomyApiService economyApiService) {
         if(economyCached == null) {
             economyCached = new EconomyDataCached(economyApiService);
         }

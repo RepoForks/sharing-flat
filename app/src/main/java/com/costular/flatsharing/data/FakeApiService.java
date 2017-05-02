@@ -20,7 +20,7 @@ public class FakeApiService implements GroupsApiService {
     public FakeApiService(int size) {
         groupList = new ArrayList<>();
         for(int i = 1; i <= size; i++) {
-            groupList.add(new Group(i, "Title " + i, "Description " + i, "https://www.wonderplugin.com/wp-content/plugins/wonderplugin-lightbox/images/demo-image0.jpg"));
+            groupList.add(new Group(i, "Title " + i, "Description " + i, "http://www.hotel-r.net/im/hotel/lt/nice-flat-14.jpg"));
         }
         reverseList();
     }

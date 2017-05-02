@@ -21,7 +21,7 @@ public class Group implements Parcelable{
 
     private void addMembers() {
         members = new ArrayList<>();
-        members.add(new User(1, "Diego F", "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAccAAAAJGVkZjkzMmNhLTU1YjQtNDgwMC04Mjc5LTI0NWQzZDIyZjJmYg.jpg",
+        members.add(new User(1, "Diego F", "https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAriAAAAJGRkMGFjZTUyLTQ4MDAtNDljMC1hNmIxLTFhMTIwYWJhMDNjOA.jpg",
                 "diegooo.fc@gmail.com"));
         members.add(new User(2, "Diego R", "http://i.imgur.com/FA63bAp.jpg", "esferca13@gmail.com"));
         members.add(new User(3, "Eusebio", "http://cd00.epimg.net/cincodias/imagenes/2013/02/15/economia/1361168906_740215_0000000001_noticia_normal.jpg",

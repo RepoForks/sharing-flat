@@ -60,7 +60,8 @@ public class GroupsFragment extends Fragment implements GroupsContract.MyView {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        groupsPresenter = new GroupsPresenter(this, Repository.getInMemoryRepoInstance(new FakeApiService(9)));
+        groupsPresenter = new GroupsPresenter(this,
+                Repository.getInMemoryRepoInstance(new FakeApiService(9)));
 
         refreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
